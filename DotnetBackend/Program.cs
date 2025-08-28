@@ -1,41 +1,53 @@
-var builder = WebApplication.CreateBuilder(args);
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+using DotnetBackend.Services;
 
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+namespace DotnetBackend
 {
-    app.MapOpenApi();
-}
+    public class Program
+    {
+        private static WebApplicationBuilder builder;
+        private static WebApplication app;
 
-app.UseHttpsRedirection();
+        public static void Main(string[] args)
+        {
+            // Create builder
+            builder = WebApplication.CreateBuilder(args);
+            // Add services and controllers before building
+            AddServices();
+            AddControllers();
+            // Build app making .Services read-only
+            app = builder.Build();
+            // Map controllers to their endpoints & Add middleware
+            SetAppEndpoints();
+            // Start the Backend
+            app.Run();
+        }
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+        private static void AddServices()
+        {
+            builder.Services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(policy =>
+                {
+                    policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+                });
+            });
 
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
+            builder.Services.AddSingleton<TestService>();
+        }
 
-app.Run();
+        private static void AddControllers()
+        {
+            builder.Services.AddControllers();
+        }
 
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+        private static void SetAppEndpoints()
+        {
+            app.UseCors();
+            app.UseHttpsRedirection();
+            app.MapControllers();
+        }
+    }
 }
