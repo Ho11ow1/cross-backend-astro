@@ -1,0 +1,43 @@
+# =====================
+# Environment variables
+# =====================
+.env
+
+# =====================
+# Node / Astro
+# =====================
+node_modules/
+dist/
+.astro/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# =====================
+# .NET
+# =====================
+bin/
+obj/
+*.user
+*.suo
+
+# =====================
+# Java / Spring Boot
+# =====================
+target/
+.gradle/
+build/
+out/
+*.class
+*.jar
+*.war
+*.iml
+*.log
+
+# =====================
+# Editors / IDEs
+# =====================
+.vscode/
+.vs/
+.idea/
