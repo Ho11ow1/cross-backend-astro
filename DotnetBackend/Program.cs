@@ -9,6 +9,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+<<<<<<< Updated upstream
     app.MapOpenApi();
 }
 
@@ -38,4 +39,55 @@ app.Run();
 record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
 {
     public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+=======
+    public class Program
+    {
+        private static WebApplicationBuilder builder;
+        private static WebApplication app;
+
+        public static void Main(string[] args)
+        {
+            // Create builder
+            builder = WebApplication.CreateBuilder(args);
+            // Add services and controllers before building
+            AddServices();
+            AddControllers();
+            // Build app making .Services read-only
+            app = builder.Build();
+            // Map controllers to their endpoints & Add middleware
+            SetAppEndpoints();
+            // Start the Backend
+            app.Run();
+        }
+
+        private static void AddServices()
+        {
+            builder.Services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(policy =>
+                {
+                    policy.WithOrigins("http://localhost:4321", "http://localhost:3000")
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+                });
+            });
+
+            builder.Services.AddSingleton<TestService>();
+            builder.Services.AddSingleton<DatabaseService>();
+        }
+
+        private static void AddControllers()
+        {
+            builder.Services.AddControllers();
+        }
+
+        private static void SetAppEndpoints()
+        {
+            app.UseCors();
+            app.MapControllers();
+            // Commented out for local http testing
+            //app.UseHttpsRedirection();
+        }
+    }
+>>>>>>> Stashed changes
 }
