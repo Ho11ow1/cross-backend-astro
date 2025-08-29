@@ -1,9 +1,10 @@
 const Backend: string = import.meta.env.ACTIVE_BACKEND.toLowerCase();
 const BackendURL: string = DetermineBackendURL();
+const ApiEndpoint = `${BackendURL}/api`
 
 function DetermineBackendURL()
 {
-    if (Backend== "dotnet")
+    if (Backend == "dotnet")
     {
         return import.meta.env.BACKEND_DOTNET_URL;
     }
@@ -19,3 +20,4 @@ function DetermineBackendURL()
 
 export function GetBackend() { return Backend; }
 export function GetBackendURL() { return BackendURL; }
+export function GetApiEndpoint() { return ApiEndpoint; }
