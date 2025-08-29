@@ -1,7 +1,8 @@
 # =====================
-# Environment variables
+# Environment / Temp
 # =====================
 .env
+**.bak
 
 # =====================
 # Node / Astro
@@ -41,3 +42,4 @@ out/
 .vscode/
 .vs/
 .idea/
+

@@ -1,21 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
+    <ImplicitUsings>false</ImplicitUsings>
   </PropertyGroup>
 
   <ItemGroup>
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.8" />
-=======
     <PackageReference Include="MySqlConnector" Version="2.4.0" />
->>>>>>> Stashed changes
-=======
-    <PackageReference Include="MySqlConnector" Version="2.4.0" />
->>>>>>> Stashed changes
   </ItemGroup>
-
 </Project>
