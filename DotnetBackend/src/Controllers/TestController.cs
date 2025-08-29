@@ -8,17 +8,17 @@ namespace DotnetBackend.Controllers
     [Route("api")]
     public class TestController : ControllerBase
     {
-        private readonly TestService _testService;
+        private readonly TestService _service;
 
-        public TestController(TestService testService)
+        public TestController(TestService service)
         {
-            _testService = testService;
+            _service = service;
         }
 
-        [HttpGet("Greet/{name}")]
+        [HttpGet("greet/{name}")]
         public IActionResult GetGreeting(string name)
         {
-            var message = _testService.GetGreeting(name);
+            var message = _service.GetGreeting(name);
             return Ok(new 
             { 
                 Message = message

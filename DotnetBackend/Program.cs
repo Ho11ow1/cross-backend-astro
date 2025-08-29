@@ -31,11 +31,14 @@ namespace DotnetBackend
             {
                 options.AddDefaultPolicy(policy =>
                 {
-                    policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+                    policy.WithOrigins("http://localhost:4321", "http://localhost:3000")
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
                 });
             });
 
             builder.Services.AddSingleton<TestService>();
+            builder.Services.AddSingleton<DatabaseService>();
         }
 
         private static void AddControllers()
@@ -46,8 +49,9 @@ namespace DotnetBackend
         private static void SetAppEndpoints()
         {
             app.UseCors();
-            app.UseHttpsRedirection();
             app.MapControllers();
+            // Commented out for local http testing
+            //app.UseHttpsRedirection();
         }
     }
 }
