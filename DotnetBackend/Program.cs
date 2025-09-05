@@ -1,7 +1,7 @@
+using DotnetBackend.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-
-using DotnetBackend.Services;
+using System.Text.Json.Serialization;
 
 namespace DotnetBackend
 {
@@ -36,6 +36,16 @@ namespace DotnetBackend
                         .AllowAnyHeader();
                 });
             });
+
+            // Using this method will result in the actual propertyNameCase
+            builder.Services.AddControllers().AddJsonOptions(options => {
+                options.JsonSerializerOptions.PropertyNamingPolicy = null;
+            });
+
+            // Using this method will result in camelCase json
+            //builder.Services.ConfigureHttpJsonOptions(options => {
+            //    options.SerializerOptions.PropertyNamingPolicy = null;
+            //});
 
             builder.Services.AddSingleton<TestService>();
             builder.Services.AddSingleton<DatabaseService>();

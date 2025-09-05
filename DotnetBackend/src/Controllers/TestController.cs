@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 using DotnetBackend.Services;
 
@@ -23,6 +24,20 @@ namespace DotnetBackend.Controllers
             { 
                 Message = message
             });
+        }
+
+        [HttpGet("users")]
+        public async Task<IActionResult> GetUsers()
+        {
+            try
+            {
+                var users = await _service.GetUsersAsync();
+                return Ok(users);
+            }
+            catch (System.Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
     }
 }
