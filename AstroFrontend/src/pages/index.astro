@@ -1,5 +1,9 @@
 ---
 	import { GetBackend, GetBackendURL } from "@data/AstroDefs.ts";
+	import { GetUsers } from "@data/Fetch.ts";
+	import type { User } from "@data/Types.ts";
+
+	const users: User[] = await GetUsers();
 ---
 
 <html lang="en">
@@ -16,5 +20,19 @@
 		<h1>Astro</h1>
 		<h3>{`${GetBackend()}`}</h3>
 		<h3>{`${GetBackendURL()}`}</h3>
+		{
+			users.map((user) => {
+				return (
+					<div>
+						<h1>ID: {user.Id}</h1>
+						<h2>Username: {user.UserName}</h2>
+						<h2>Password: {user.Password}</h2>
+						{user.Email && <h2>Email: {user.Email}</h2>}
+						{user.DisplayName && <h2>DisplayName: {user.DisplayName}</h2>}
+					</div>
+				);
+			})
+		}
+		<h4>User count: {users.length}</h4>
 	</body>
 </html>
