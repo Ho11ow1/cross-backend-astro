@@ -1,0 +1,54 @@
+<div class="user-lookup-container">
+  <input type="number" id="userIdInput" placeholder="Enter user ID" min="1"/>
+  <button id="lookupButton">Look Up User</button>
+</div>
+
+<script>
+    const input = document.getElementById('userIdInput') as HTMLInputElement;
+    const button = document.getElementById('lookupButton') as HTMLButtonElement;
+    
+    async function lookupUser() 
+    {
+        const userId = input.value.trim();
+      
+        if (!userId || isNaN(Number(userId))) 
+        {
+            alert('Please enter a valid user ID');
+            return;
+        }
+      
+        button.disabled = true;
+        button.textContent = 'Loading...';
+      
+        try 
+        {
+            const response = await fetch(`/api/users/${userId}`);
+            const data = await response.json();
+            
+            if (!response.ok)
+            {
+                alert("No user found");
+                return;
+            }
+
+            const userInfo = Object.entries(data)
+                .map(([key, value]) => `${key}: ${value}`)
+                .join('\n');
+            
+            alert(`User Found!\n\n${userInfo}`);
+        
+        } 
+        catch (error) 
+        {
+            console.error('Error fetching user:', error);
+            alert('Error occurred while fetching user data. Please try again.');
+        } 
+        finally 
+        {
+            button.disabled = false;
+            button.textContent = 'Look Up User';
+        }
+    }
+    
+    button.addEventListener('click', lookupUser);
+</script>
