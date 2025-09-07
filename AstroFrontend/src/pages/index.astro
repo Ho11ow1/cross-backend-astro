@@ -1,9 +1,9 @@
 ---
 	import { GetBackend, GetBackendURL } from "@data/AstroDefs.ts";
-	import { GetUsers } from "@data/Fetch.ts";
+	import { GetAllUsers, GetUserById, DeleteUserById } from "@data/Fetch.ts";
 	import type { User } from "@data/Types.ts";
 
-	const users: User[] = await GetUsers();
+	const users: User[] = (await GetAllUsers()) ?? [];
 ---
 
 <html lang="en">
@@ -33,6 +33,27 @@
 				);
 			})
 		}
+		<input type="number" id="userId" placeholder="User ID"/>
+		<button onclick="GetUser()">Click Me</button>
 		<h4>User count: {users.length}</h4> 
 	</body>
+
+	<script is:inline>
+		async function GetUser()
+		{
+			const userId = document.getElementById("userId").value;
+			GetUserById(userId).then(user => {
+				if (user)
+				{
+					alert(`ID: ${user.Id}\nUsername: ${user.UserName}\nPassword: ${user.Password}\nEmail: ${user.Email}\nDisplayName: ${user.DisplayName}`);
+				}
+				else
+				{
+					alert("User not found");
+				}
+			}).catch(error => {
+				alert(`Error: ${error.message}`);
+			});
+		}
+	</script>
 </html>
