@@ -1,7 +1,7 @@
-using DotnetBackend.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using System.Text.Json.Serialization;
+
+using DotnetBackend.Services;
 
 namespace DotnetBackend
 {
@@ -48,7 +48,7 @@ namespace DotnetBackend
             //});
 
             builder.Services.AddSingleton<TestService>();
-            builder.Services.AddSingleton<DatabaseService>();
+            builder.Services.AddScoped<DatabaseService>();
         }
 
         private static void AddControllers()
